@@ -1,0 +1,115 @@
+# Text Analysis of Blog Articles
+
+## Objective
+
+The primary goal of this assignment is to perform a comprehensive text analysis on a collection of blog articles. This involves:
+
+1.  **Data Extraction:** Scraping the title and content of blog articles from a list of URLs.
+2.  **Text Analysis:** Calculating various metrics related to sentiment, readability, and linguistic features.
+3.  **Output Generation:** Consolidating the extracted data and analysis results into a structured Excel file.
+
+## Project Structure
+
+The project is organized into the following directory structure:
+
+```
+.
+├── Data/
+│   └── Input.xlsx
+├── instruction_document
+├── requirements.txt
+├── Src/
+│   ├── extracted_articles/
+│   │   └── <URL_ID>.txt
+│   ├── MasterDictionary/
+│   │   ├── positive-words.txt
+│   │   └── negative-words.txt
+│   ├── StopWords/
+│   │   └── stopwords.txt
+│   ├── text-analysis.ipynb
+│   └── Output Data Structure.xlsx
+└── venv/
+```
+
+-   `Data/Input.xlsx`: Contains the input URLs for the articles to be analyzed.
+-   `Src/extracted_articles/`: Stores the raw text content of each scraped article.
+-   `Src/MasterDictionary/`: Contains lists of positive and negative words for sentiment analysis.
+-   `Src/StopWords/`: Contains a list of stopwords to be excluded from the analysis.
+-   `Src/text-analysis.ipynb`: The Jupyter Notebook containing the Python code for the entire analysis pipeline.
+-   `Src/Output Data Structure.xlsx`: The final output file with all the calculated metrics.
+-   `requirements.txt`: A list of Python libraries required to run the project.
+-   `instruction_document`: This document.
+
+## Analysis Methodology
+
+The analysis is performed in the following sequence:
+
+1.  **Data Extraction**:
+    -   URLs are read from `Data/Input.xlsx`.
+    -   For each URL, the article's title (`<h1>`) and content (`<p>` tags) are extracted using `requests` and `BeautifulSoup`.
+    -   The extracted text is saved as a `.txt` file in the `Src/extracted_articles/` directory, named with its corresponding `URL_ID`.
+
+2.  **Text Cleaning**:
+    -   Punctuation is removed, and all text is converted to lowercase.
+    -   The text is tokenized into individual words using `nltk.word_tokenize`.
+    -   Stopwords are removed based on the provided list in `Src/StopWords/`.
+
+3.  **Sentiment Analysis**:
+    -   The cleaned text is analyzed to calculate sentiment scores based on the `MasterDictionary`.
+    -   The following scores are computed:
+        -   **Positive Score**: Count of positive words.
+        -   **Negative Score**: Count of negative words.
+        -   **Polarity Score**: Ranges from -1 (very negative) to +1 (very positive).
+        -   **Subjectivity Score**: Ranges from 0 (very objective) to 1 (very subjective).
+
+4.  **Readability and Linguistic Analysis**:
+    -   Several metrics are calculated to assess the readability and complexity of the text:
+        -   **Average Sentence Length**
+        -   **Percentage of Complex Words**
+        -   **FOG Index**
+        -   **Word Count**
+        -   **Complex Word Count**
+        -   **Syllables Per Word**
+        -   **Personal Pronouns**
+        -   **Average Word Length**
+
+5.  **Output Generation**:
+    -   The calculated scores for each article are merged with the original input data using the `URL_ID`.
+    -   The final consolidated data is saved to `Src/Output Data Structure.xlsx`.
+
+## How to Run the Analysis
+
+1.  **Set up a Virtual Environment** (Recommended):
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows use: venv\Scripts\activate
+    ```
+
+2.  **Install Dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3.  **Download NLTK Data**:
+    Run the following in a Python interpreter once to download the necessary `punkt` tokenizer models:
+    ```python
+    import nltk
+    nltk.download('punkt')
+    ```
+
+4.  **Run the Jupyter Notebook**:
+    -   Launch Jupyter Lab or Jupyter Notebook:
+        ```bash
+        jupyter lab
+        ```
+        or
+        ```bash
+        jupyter notebook
+        ```
+    -   Open the `Src/text-analysis.ipynb` notebook.
+    -   Run all cells sequentially from top to bottom to perform the data extraction, analysis, and generate the final output file.
+
+## Output
+
+The final output is an Excel file named `Output Data Structure.xlsx` located in the `Src/` directory. It contains the `URL_ID` and `URL` from the input file, along with all 13 calculated analysis metrics for each article.
+
